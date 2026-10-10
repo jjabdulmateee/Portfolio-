@@ -31,7 +31,7 @@ function toIanaOffset(label: string): string {
 export function NowWidget() {
   const time = useClock(toIanaOffset(site.now.location));
   const active = site.now.activeBuilds
-    .map((slug) => projects.find((p) => p.slug === slug))
+    .map((id) => projects.find((p) => p.id === id))
     .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return (
@@ -71,9 +71,9 @@ export function NowWidget() {
         <Line prompt="active_builds">
           <ul className="mt-1 space-y-1">
             {active.map((p) => (
-              <li key={p.slug} className="flex items-center gap-2 text-zinc-300">
+              <li key={p.id} className="flex items-center gap-2 text-zinc-300">
                 <span className="text-zinc-600">├─</span>
-                <span>{p.title}</span>
+                <span>{p.name}</span>
                 <span className="text-zinc-600">—</span>
                 <span className="text-blue-400">{p.status}</span>
               </li>

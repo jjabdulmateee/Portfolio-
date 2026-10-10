@@ -40,9 +40,9 @@ export default function SystemPage() {
             </h2>
             <ul className="mt-3 space-y-1.5 font-mono text-xs">
               {projects.map((p) => (
-                <li key={p.slug} className="flex gap-3 text-zinc-400">
+                <li key={p.id} className="flex gap-3 text-zinc-400">
                   <span className="text-zinc-600">{p.year}</span>
-                  <span className="text-zinc-200">{p.title}</span>
+                  <span className="text-zinc-200">{p.name}</span>
                   <span className="ml-auto text-blue-400">{p.status}</span>
                 </li>
               ))}

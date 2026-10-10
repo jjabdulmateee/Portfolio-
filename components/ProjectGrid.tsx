@@ -13,16 +13,16 @@ export function ProjectGrid() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const openSlug = searchParams.get(PARAM);
+  const openId = searchParams.get(PARAM);
   const openProject = useMemo(
-    () => projects.find((p) => p.slug === openSlug) ?? null,
-    [openSlug],
+    () => projects.find((p) => p.id === openId) ?? null,
+    [openId],
   );
 
-  const setSlug = useCallback(
-    (slug: string | null) => {
+  const setId = useCallback(
+    (id: string | null) => {
       const params = new URLSearchParams(searchParams.toString());
-      if (slug) params.set(PARAM, slug);
+      if (id) params.set(PARAM, id);
       else params.delete(PARAM);
       const qs = params.toString();
       router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
@@ -38,8 +38,8 @@ export function ProjectGrid() {
             <span className="text-emerald-400">❯</span> ls ~/builds
           </h2>
           <p className="mt-1 text-sm text-zinc-500">
-            {projects.length} shipped or in-flight builds. Click any card for
-            architecture, metrics, and screenshots.
+            {projects.length} shipped or in-flight builds. Click any card for the
+            founder story, technical reality, and proof of work.
           </p>
         </div>
         <span className="hidden font-mono text-[11px] text-zinc-600 sm:inline">
@@ -50,15 +50,15 @@ export function ProjectGrid() {
       <div className="grid gap-4 md:grid-cols-2">
         {projects.map((project, i) => (
           <ProjectCard
-            key={project.slug}
+            key={project.id}
             project={project}
             index={i}
-            onOpen={(slug) => setSlug(slug)}
+            onOpen={(id) => setId(id)}
           />
         ))}
       </div>
 
-      <ProjectDrawer project={openProject} onClose={() => setSlug(null)} />
+      <ProjectDrawer project={openProject} onClose={() => setId(null)} />
     </section>
   );
 }
