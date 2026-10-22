@@ -11,11 +11,14 @@ export function AppLogo({
   src,
   name,
   size = 48,
+  /** "light" backs the logo with white — for dark artwork on transparent backgrounds */
+  tone = "dark",
   className,
 }: {
   src: string;
   name: string;
   size?: number;
+  tone?: "dark" | "light";
   className?: string;
 }) {
   const [failed, setFailed] = useState(false);
@@ -30,7 +33,8 @@ export function AppLogo({
     <div
       style={{ width: size, height: size }}
       className={cn(
-        "relative shrink-0 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 shadow-inner shadow-black/40",
+        "relative shrink-0 overflow-hidden rounded-xl border shadow-inner shadow-black/40",
+        tone === "light" ? "border-zinc-700 bg-white" : "border-zinc-800 bg-zinc-900",
         className,
       )}
     >

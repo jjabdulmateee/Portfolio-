@@ -5,8 +5,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowUpRight,
   CheckCircle2,
+  ChevronDown,
   Circle,
   Compass,
+  KeyRound,
+  Link2,
   MessageSquareQuote,
   PlayCircle,
   ShieldCheck,
@@ -14,7 +17,7 @@ import {
   Wrench,
   X,
 } from "lucide-react";
-import type { Project } from "@/data/projects";
+import type { Project, RelatedProject } from "@/data/projects";
 import { cn } from "@/lib/utils";
 import { AppLogo } from "./ui/AppLogo";
 import { GithubIcon } from "./ui/BrandIcons";
@@ -34,20 +37,26 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 export function ProjectDrawer({
   project,
   onClose,
+  onNavigate,
 }: {
   project: Project | null;
   onClose: () => void;
+  /** Switch the drawer to another project (used by cross-link callouts) */
+  onNavigate?: (id: string) => void;
 }) {
   const open = project !== null;
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<SectionId>("story");
+  /** Only one Q&A card open at a time; Q1 open by default. */
+  const [expandedQAIndex, setExpandedQAIndex] = useState(0);
 
-  // Reset the active tab when a different project opens (state-during-render pattern)
+  // Reset the active tab and accordion when a different project opens
   const [prevId, setPrevId] = useState(project?.id);
   if (project && project.id !== prevId) {
     setPrevId(project.id);
     setActive("story");
+    setExpandedQAIndex(0);
   }
 
   // Scroll lock + ESC + initial focus
@@ -126,7 +135,7 @@ export function ProjectDrawer({
             {/* ── Header ── */}
             <header className="border-b border-zinc-800 bg-zinc-950/95 px-5 pb-4 pt-5 backdrop-blur sm:px-6">
               <div className="flex items-start gap-4">
-                <AppLogo src={project.logo} name={project.name} size={64} />
+                <AppLogo src={project.logo} name={project.name} tone={project.logoTone} size={64} />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <StatusPill status={project.status} />
@@ -140,6 +149,12 @@ export function ProjectDrawer({
                   >
                     {project.name}
                   </h2>
+                  {project.subtitle && (
+                    <p className="mt-1 text-sm text-zinc-400">{project.subtitle}</p>
+                  )}
+                  {project.category && (
+                    <p className="mt-1 font-mono text-[11px] text-zinc-500">{project.category}</p>
+                  )}
                   <p className="mt-1.5 text-sm leading-relaxed text-zinc-400">
                     {project.shortSummary}
                   </p>
@@ -199,27 +214,28 @@ export function ProjectDrawer({
               className="flex-1 overflow-y-auto overscroll-contain scroll-smooth px-5 py-6 sm:px-6"
             >
               <div className="space-y-10 pb-6">
+                {/* Cross-link callout (e.g. admin console → mobile app) */}
+                {project.relatedProject && (
+                  <RelatedCallout
+                    related={project.relatedProject}
+                    onNavigate={onNavigate}
+                  />
+                )}
+
                 {/* Section 1: Founder Story & Q&A */}
                 <Section id="story" index="01" title="Founder Story & Q&A" Icon={MessageSquareQuote}>
                   <ol className="space-y-3">
                     {project.storyQA.map((qa, i) => (
-                      <motion.li
+                      <QACard
                         key={i}
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 + i * 0.05, duration: 0.35, ease: EASE }}
-                        className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-4"
-                      >
-                        <p className="flex gap-2.5 text-sm font-medium text-zinc-100">
-                          <span className="shrink-0 font-mono text-[11px] leading-5 text-blue-400">
-                            Q{i + 1}
-                          </span>
-                          <span>{qa.question}</span>
-                        </p>
-                        <p className="mt-2 border-l-2 border-zinc-800 pl-3 text-sm leading-relaxed text-zinc-400">
-                          {qa.answer}
-                        </p>
-                      </motion.li>
+                        index={i}
+                        question={qa.question}
+                        answer={qa.answer}
+                        expanded={expandedQAIndex === i}
+                        onToggle={() =>
+                          setExpandedQAIndex((current) => (current === i ? -1 : i))
+                        }
+                      />
                     ))}
                   </ol>
                 </Section>
@@ -263,7 +279,7 @@ export function ProjectDrawer({
                   <div className="grid gap-3 sm:grid-cols-3">
                     <ProofButton
                       href={project.proofLinks.github}
-                      label="GitHub Code"
+                      label="GitHub Repo"
                       hint="Read the source"
                       Icon={GithubIcon}
                     />
@@ -275,12 +291,20 @@ export function ProjectDrawer({
                     />
                     <ProofButton
                       href={project.proofLinks.liveApp}
-                      label="Test App"
+                      label={project.proofLinks.liveAppLabel ?? "Test App"}
                       hint="Try it yourself"
                       Icon={Smartphone}
                       primary
                     />
                   </div>
+                  {project.evaluatorNote && (
+                    <div className="mt-3 flex items-start gap-2.5 rounded-lg border border-zinc-800 bg-zinc-900/40 px-4 py-3">
+                      <KeyRound className="mt-0.5 size-3.5 shrink-0 text-emerald-400" />
+                      <p className="text-sm leading-relaxed text-zinc-300">
+                        {project.evaluatorNote}
+                      </p>
+                    </div>
+                  )}
                 </Section>
               </div>
             </div>
@@ -329,6 +353,134 @@ function Section({
       </div>
       {children}
     </section>
+  );
+}
+
+function RelatedCallout({
+  related,
+  onNavigate,
+}: {
+  related: RelatedProject;
+  onNavigate?: (id: string) => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: EASE }}
+      className="flex items-center gap-3 rounded-lg border border-emerald-500/25 bg-emerald-500/[0.06] px-4 py-3"
+    >
+      <Link2 className="size-4 shrink-0 text-emerald-400" />
+      <p className="text-sm text-zinc-300">
+        {related.note}{" "}
+        <button
+          type="button"
+          onClick={() => onNavigate?.(related.id)}
+          className="inline-flex items-center gap-1 font-medium text-emerald-300 underline decoration-emerald-500/40 underline-offset-4 transition-colors hover:text-emerald-200 hover:decoration-emerald-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/60 rounded-sm"
+        >
+          {related.linkLabel}
+          <ArrowUpRight className="size-3.5" />
+        </button>
+        .
+      </p>
+    </motion.div>
+  );
+}
+
+/**
+ * First two sentences of an answer, used as the collapsed preview.
+ * Falls back to the first ~160 characters when no sentence boundary is found.
+ */
+function previewOf(answer: string): string {
+  const sentences = answer.match(/[^.!?]+[.!?]+/g);
+  if (sentences && sentences.length > 0) {
+    return sentences.slice(0, 2).join(" ").trim();
+  }
+  return answer.length > 160 ? `${answer.slice(0, 160).trim()}…` : answer;
+}
+
+function QACard({
+  index,
+  question,
+  answer,
+  expanded,
+  onToggle,
+}: {
+  index: number;
+  question: string;
+  answer: string;
+  expanded: boolean;
+  onToggle: () => void;
+}) {
+  const panelId = `qa-panel-${index}`;
+  return (
+    <motion.li
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.1 + index * 0.05, duration: 0.35, ease: EASE }}
+      className={cn(
+        "overflow-hidden rounded-lg border bg-zinc-900/40 transition-colors",
+        expanded ? "border-blue-500/40" : "border-zinc-800 hover:border-zinc-700",
+      )}
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={expanded}
+        aria-controls={panelId}
+        className="flex w-full items-start gap-2.5 px-4 py-3.5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500/60"
+      >
+        <span className="mt-0.5 shrink-0 font-mono text-[11px] text-blue-400">
+          Q{index + 1}
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-medium text-zinc-100">{question}</span>
+          {/* Collapsed preview: first two sentences, faded */}
+          <AnimatePresence initial={false}>
+            {!expanded && (
+              <motion.span
+                key="preview"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="mt-1.5 line-clamp-2 block text-sm leading-relaxed text-zinc-500"
+              >
+                {previewOf(answer)}
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </span>
+        <ChevronDown
+          className={cn(
+            "mt-0.5 size-4 shrink-0 text-zinc-500 transition-transform duration-300",
+            expanded && "rotate-180 text-blue-400",
+          )}
+        />
+      </button>
+
+      {/* Expanded full answer */}
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            id={panelId}
+            role="region"
+            key="answer"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="overflow-hidden"
+          >
+            <div className="space-y-3 border-t border-zinc-800 px-4 py-3.5 pl-[3.15rem] text-sm leading-relaxed text-zinc-300">
+              {answer.split(/\n{2,}/).map((paragraph, p) => (
+                <p key={p}>{paragraph}</p>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.li>
   );
 }
 

@@ -58,7 +58,11 @@ export function ProjectGrid() {
         ))}
       </div>
 
-      <ProjectDrawer project={openProject} onClose={() => setId(null)} />
+      <ProjectDrawer
+        project={openProject}
+        onClose={() => setId(null)}
+        onNavigate={(id) => setId(id)}
+      />
     </section>
   );
 }

@@ -34,18 +34,29 @@ export function ProjectCard({
 
       {/* Header: logo + name + status */}
       <div className="pointer-events-none relative z-10 flex items-start gap-3.5">
-        <AppLogo src={project.logo} name={project.name} size={48} />
+        <AppLogo src={project.logo} name={project.name} tone={project.logoTone} size={48} />
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="truncate text-base font-semibold tracking-tight text-zinc-50 sm:text-lg">
-              {project.name}
-            </h3>
+            <div className="min-w-0">
+              <h3 className="truncate text-base font-semibold tracking-tight text-zinc-50 sm:text-lg">
+                {project.name}
+              </h3>
+              {project.subtitle && (
+                <p className="mt-0.5 truncate text-xs text-zinc-400">{project.subtitle}</p>
+              )}
+            </div>
             <StatusPill status={project.status} className="hidden shrink-0 sm:inline-flex" />
           </div>
           <div className="mt-0.5 flex items-center gap-2 font-mono text-[11px] text-zinc-500">
             <span>{String(index + 1).padStart(2, "0")}</span>
             <span className="text-zinc-700">/</span>
             <span>{project.year}</span>
+            {project.category && (
+              <>
+                <span className="text-zinc-700">/</span>
+                <span className="truncate">{project.category}</span>
+              </>
+            )}
           </div>
         </div>
       </div>
