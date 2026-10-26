@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <rect width="160" height="160" rx="28" ry="28" fill="#059669"/>
+  <!-- Battery body -->
+  <rect x="52" y="50" width="56" height="68" rx="6" ry="6" fill="none" stroke="#fff" stroke-width="5"/>
+  <!-- Battery terminal -->
+  <rect x="70" y="42" width="20" height="10" rx="3" ry="3" fill="none" stroke="#fff" stroke-width="4"/>
+  <!-- Lightning bolt -->
+  <polygon points="88,68 76,88 84,88 72,112 96,82 86,82" fill="#fff"/>
+  <!-- Swap arrows -->
+  <path d="M38,72 L28,80 L38,88" fill="none" stroke="#a7f3d0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M122,72 L132,80 L122,88" fill="none" stroke="#a7f3d0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="28" y1="80" x2="48" y2="80" stroke="#a7f3d0" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="112" y1="80" x2="132" y2="80" stroke="#a7f3d0" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

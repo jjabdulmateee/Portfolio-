@@ -66,19 +66,21 @@ export function ProjectCard({
 
       {/* Short summary */}
       <p className="pointer-events-none relative z-10 mt-4 line-clamp-3 text-sm leading-relaxed text-zinc-400">
-        {project.shortSummary}
+        {project.description ?? project.shortSummary}
       </p>
 
       {/* Stack */}
       <div className="pointer-events-none relative z-10 mt-4 flex flex-wrap gap-1.5">
-        {project.stack.map((tech) => (
+        {(project.techStack ?? project.stack).map((tech) => (
           <StackTag key={tech}>{tech}</StackTag>
         ))}
       </div>
 
       {/* Footer */}
       <div className="pointer-events-none relative z-10 mt-auto flex items-center justify-between pt-5 font-mono text-xs">
-        <span className="text-zinc-600">{project.storyQA.length} Q&amp;A · {project.technical.built.length} shipped</span>
+        <span className="text-zinc-600">
+          {(project.qa ?? project.storyQA).length} Q&amp;A · {(project.built ?? project.technical.built).length} shipped
+        </span>
         <span className="inline-flex items-center gap-1 text-zinc-500 transition-colors group-hover:text-blue-400">
           open
           <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

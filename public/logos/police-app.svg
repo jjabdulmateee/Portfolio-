@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+  <!-- Background tile -->
+  <rect width="160" height="160" rx="32" ry="32" fill="#0b1329"/>
+  <rect x="1" y="1" width="158" height="158" rx="31" ry="31" fill="none" stroke="#1e293b" stroke-width="2"/>
+
+  <!-- Law Enforcement Shield Badge -->
+  <path d="M80,26 L118,40 C118,78 102,110 80,128 C58,110 42,78 42,40 Z" fill="url(#shieldGrad)" stroke="url(#goldGrad)" stroke-width="3.5" stroke-linejoin="round"/>
+
+  <!-- Inner shield line -->
+  <path d="M80,34 L110,45 C110,75 97,103 80,118 C63,103 50,75 50,45 Z" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.4"/>
+
+  <!-- Microphone / Audio Scribe Icon -->
+  <rect x="73" y="52" width="14" height="24" rx="7" fill="url(#goldGrad)"/>
+  <path d="M64,66 C64,75 71,82 80,82 C89,82 96,75 96,66" fill="none" stroke="#f8fafc" stroke-width="3" stroke-linecap="round"/>
+  <line x1="80" y1="82" x2="80" y2="92" stroke="#f8fafc" stroke-width="3" stroke-linecap="round"/>
+  <line x1="72" y1="92" x2="88" y2="92" stroke="#f8fafc" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Sound Waves (Left & Right) -->
+  <path d="M57,60 C55,64 55,68 57,72" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M103,60 C105,64 105,68 103,72" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M51,55 C48,62 48,70 51,77" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-opacity="0.6"/>
+  <path d="M109,55 C112,62 112,70 109,77" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-opacity="0.6"/>
+
+  <!-- KP Police Star / Badge Accent -->
+  <polygon points="80,99 82,104 87,104 83,107 84,112 80,109 76,112 77,107 73,104 78,104" fill="url(#goldGrad)"/>
+</svg>

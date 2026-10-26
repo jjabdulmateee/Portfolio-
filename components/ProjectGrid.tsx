@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { projects } from "@/data/projects";
+import { getProject, projects } from "@/data/projects";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectDrawer } from "./ProjectDrawer";
 
@@ -15,7 +15,7 @@ export function ProjectGrid() {
 
   const openId = searchParams.get(PARAM);
   const openProject = useMemo(
-    () => projects.find((p) => p.id === openId) ?? null,
+    () => (openId ? getProject(openId) ?? null : null),
     [openId],
   );
 
@@ -25,13 +25,25 @@ export function ProjectGrid() {
       if (id) params.set(PARAM, id);
       else params.delete(PARAM);
       const qs = params.toString();
-      router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+      router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: true });
     },
     [router, pathname, searchParams],
   );
 
+  if (openProject) {
+    return (
+      <section id="build-detail" className="mx-auto max-w-5xl px-4 pb-24 pt-6 sm:px-6">
+        <ProjectDrawer
+          project={openProject}
+          onClose={() => setId(null)}
+          onNavigate={(id) => setId(id)}
+        />
+      </section>
+    );
+  }
+
   return (
-    <section id="builds" className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
+    <section id="builds" className="mx-auto max-w-7xl px-6 pb-24 md:px-12">
       <div className="mb-6 flex items-end justify-between border-b border-zinc-800/80 pb-3">
         <div>
           <h2 className="font-mono text-sm text-zinc-400">
@@ -57,12 +69,6 @@ export function ProjectGrid() {
           />
         ))}
       </div>
-
-      <ProjectDrawer
-        project={openProject}
-        onClose={() => setId(null)}
-        onNavigate={(id) => setId(id)}
-      />
     </section>
   );
 }

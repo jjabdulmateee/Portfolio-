@@ -11,21 +11,25 @@ export type ProjectStatus =
   | "Replit Buildathon Entry"
   | "Functional Prototype"
   | "Completed"
+  | "Completed Prototype"
   | "Architecture Spec"
   | "Draft / In Progress"
   | "Completed / Live"
-  | "Completed / Shipped";
+  | "Completed / Shipped"
+  | "Interactive Staging Preview";
 
 /** Maps each status to a visual tone used by the StatusPill component. */
 export const STATUS_TONE: Record<ProjectStatus, "live" | "link" | "neutral"> = {
   Completed: "live",
   "Tested Local Build": "live",
+  "Completed Prototype": "live",
   "Functional Prototype": "link",
   "Replit Buildathon Entry": "link",
   "Architecture Spec": "neutral",
   "Draft / In Progress": "neutral",
   "Completed / Live": "live",
   "Completed / Shipped": "live",
+  "Interactive Staging Preview": "link",
 };
 
 /** Cross-link from one project drawer to another (e.g. admin console → mobile app). */
@@ -46,22 +50,31 @@ export interface ProjectTechnical {
   /** What is built and working today */
   built: string[];
   /** What's remaining before launch */
-  remaining: string[];
+  remaining?: string[];
   /** What is needed to succeed (free-form) */
-  nextStepsAndNeeds: string;
+  nextStepsAndNeeds?: string;
 }
 
 export interface ProofLinks {
   github: string;
-  videoDemo: string;
+  videoDemo?: string;
+  researchPdf?: string;
   liveApp: string;
   /** Overrides the default "Test App" button label (e.g. "Live Demo") */
   liveAppLabel?: string;
 }
 
+export interface ProjectMetric {
+  label: string;
+  value: string;
+}
+
 export interface Project {
   id: string;
   name: string;
+  title?: string;
+  /** Optional punchy tagline (e.g. "Swap. Ride. Repeat.") */
+  tagline?: string;
   /** Optional one-line product positioning shown under the name */
   subtitle?: string;
   /** Placeholder image URL; falls back to initials if it fails to load */
@@ -70,12 +83,17 @@ export interface Project {
   logoTone?: "dark" | "light";
   /** "What the app is about" — one or two sentences */
   shortSummary: string;
+  description?: string;
   /** Optional product category shown under the name (e.g. "Web Application") */
   category?: string;
+  featured?: boolean;
   /** Optional callout in the drawer linking to a sibling project */
   relatedProject?: RelatedProject;
   storyQA: StoryQA[];
+  qa?: StoryQA[];
   technical: ProjectTechnical;
+  built?: string[];
+  features?: string[];
   proofLinks: ProofLinks;
   /** Shown under Proof of Work, e.g. pre-filled demo login */
   evaluatorNote?: string;
@@ -83,7 +101,9 @@ export interface Project {
   /* Display metadata used by pills, the Now widget, and /system */
   status: ProjectStatus;
   stack: string[];
+  techStack?: string[];
   year: string;
+  metrics?: ProjectMetric[];
 }
 
 /* ───────────────────────── Placeholder helpers ───────────────────────── */
@@ -204,7 +224,7 @@ export const projects: Project[] = [
         "API key infrastructure funding for Google Maps distance matrix billing and merchant verification fees to onboard initial local barber clusters across Pakistan.",
     },
     status: "Tested Local Build",
-    stack: ["Flutter", "Dart", "Firebase", "Android APK"],
+    stack: ["Flutter (Dart 3.9+)", "Dart", "Firebase", "Android APK"],
     year: "2025",
   },
   {
@@ -263,7 +283,7 @@ export const projects: Project[] = [
     id: "campus-apply",
     name: "Campus Apply",
     subtitle: "Common App for Pakistani University Admissions",
-    logo: logoFor("CA"),
+    logo: "/logos/campus-apply.svg",
     category: "Web Application / EdTech Platform",
     shortSummary:
       "Centralized Common App-style portal for Pakistani higher education admissions, featuring strict student-admin role separation, immutable application snapshots, and unified document verification.",
@@ -294,13 +314,28 @@ export const projects: Project[] = [
       nextStepsAndNeeds:
         "Pilot partnership testing with regional university admissions directorates",
     },
+    features: [
+      "Unified Student Onboarding: Single profile creation replacing repetitive university-specific data entry.",
+      "Dynamic Application Pipelines: Tailored entry tracks for fresh intermediate applicants and transfer students.",
+      "Decoupled Backend Architecture: Express 5 API layer backed by Drizzle ORM and PostgreSQL schema migrations.",
+      "Institutional Multi-Tenancy (V2 Roadmap): Dedicated university management portals for application review and status synchronization.",
+      "Unified Fee Gateway (V2 Roadmap): Streamlined application fee processing across multiple target institutions.",
+    ],
     proofLinks: {
       github: "https://github.com/jjabdulmateee/profile",
       videoDemo: "#",
-      liveApp: "#",
-      liveAppLabel: "Live Demo",
+      liveApp: "https://campus-apply--abdulmateenkhan.replit.app",
+      liveAppLabel: "Interactive Staging Preview",
     },
-    status: "Completed / Shipped",
+    evaluatorNote:
+      "NOTE FOR REVIEWERS: The staging link hosts the active Express 5 + PostgreSQL prototype. Core student account creation, applicant onboarding, and university directory routing are functional. The production roadmap is currently executing in two phases: (1) Technical hardening—migrating to HttpOnly session authentication, tightening schema validations, and optimizing asset bundles; (2) Multi-tenant University Portal & Gateway—building dedicated institutional dashboards for real-time document verification, application review workflows, and integrated application fee processing.",
+    metrics: [
+      { label: "Prototype Speed", value: "8-Hr Buildathon" },
+      { label: "Core Stack", value: "Express 5 + Drizzle" },
+      { label: "Database", value: "PostgreSQL" },
+      { label: "Target Ecosystem", value: "KP Universities" },
+    ],
+    status: "Interactive Staging Preview",
     stack: [
       "React",
       "TypeScript",
@@ -314,72 +349,227 @@ export const projects: Project[] = [
     year: "2026",
   },
   {
-    id: "humanly",
-    name: "Humanly",
-    logo: logoFor("HU", "a78bfa"),
-    shortSummary:
-      "Placeholder summary. AI media authenticity and bot detection that returns an explainable confidence score for text, images, and account behavior.",
-    storyQA: DUMMY_QA,
-    technical: DUMMY_TECH,
-    proofLinks: DUMMY_LINKS,
+    id: "police-voice-case-documentation",
+    name: "PoliceApp",
+    title: "KP Police Voice-to-Text Case Scribe & Field Documentation System",
+    tagline: "Digitizing law enforcement field investigations through voice-driven, offline-first engineering.",
+    subtitle: "Offline-first mobile legal documentation system eliminating 80% of paperwork bottlenecks for field investigation officers.",
+    category: "GovTech & Mobile Engineering",
     status: "Functional Prototype",
-    stack: ["Python", "AI/ML", "Web Architecture"],
-    year: "2025",
-  },
-  {
-    id: "voice-to-text",
-    name: "Voice-to-Text Dictation Engine",
-    logo: logoFor("VT", "f59e0b"),
+    featured: true,
+    logo: "/logos/police-app.svg",
     shortSummary:
-      "Placeholder summary. Real-time speech-to-document tool with voice commands for formatting, exporting clean documents in one click.",
-    storyQA: DUMMY_QA,
-    technical: DUMMY_TECH,
-    proofLinks: DUMMY_LINKS,
-    status: "Completed",
-    stack: ["React", "Speech Recognition API", "Tailwind CSS"],
-    year: "2024",
+      "An offline-first, military-grade encrypted Flutter application built to replace slow, handwritten police paperwork across police stations in Khyber Pakhtunkhwa (KP). The system enables Investigating Officers to dictate FIRs, Roznamcha daily diaries, and Zimni supplementary reports in real-time Urdu and English, attaches multimedia evidence, and prints official stamped legal dossiers directly onto mobile Bluetooth thermal printers at crime scenes.",
+    description:
+      "An offline-first, military-grade encrypted Flutter application built to replace slow, handwritten police paperwork across police stations in Khyber Pakhtunkhwa (KP). The system enables Investigating Officers to dictate FIRs, Roznamcha daily diaries, and Zimni supplementary reports in real-time Urdu and English, attaches multimedia evidence, and prints official stamped legal dossiers directly onto mobile Bluetooth thermal printers at crime scenes.",
+    stack: [
+      "Flutter (Dart 3.9+)",
+      "Urdu & English Speech Recognition (speech_to_text)",
+      "Hive NoSQL",
+      "AES-256 Symmetric Encryption",
+      "Android Keystore API",
+      "Bluetooth RFCOMM & USB CDC-ACM",
+      "ESC/POS Thermal Print Protocol",
+      "Noto Nastaliq Urdu Rendering",
+      "PDF Vector Compilation",
+    ],
+    techStack: [
+      "Flutter (Dart 3.9+)",
+      "Urdu & English Speech Recognition (speech_to_text)",
+      "Hive NoSQL",
+      "AES-256 Symmetric Encryption",
+      "Android Keystore API",
+      "Bluetooth RFCOMM & USB CDC-ACM",
+      "ESC/POS Thermal Print Protocol",
+      "Noto Nastaliq Urdu Rendering",
+      "PDF Vector Compilation",
+    ],
+    proofLinks: {
+      github: "https://github.com/jjabdulmateee/police-case-app",
+      videoDemo: "#",
+      liveApp: "#",
+      liveAppLabel: "Field Research Phase",
+    },
+    evaluatorNote:
+      "NOTE FOR REVIEWERS: The core Flutter codebase, AES-256 encryption layer, and ESC/POS Bluetooth printing engine are publicly accessible and reviewable on GitHub. A live APK release is currently restricted as the system undergoes active field validation. Following preliminary feedback from investigating officers, a formal design and workflow consultation is scheduled for November 7, 2026, with a senior KP Police Officer. Subsequent steps focus on UI optimization for rugged field conditions and team formation for local precinct testing.",
+    metrics: [
+      { label: "Paperwork Time Saved", value: "80%" },
+      { label: "Network Requirement", value: "0% (100% Offline)" },
+      { label: "Data Security", value: "AES-256 Hardware Encrypted" },
+      { label: "Primary Language", value: "Urdu (RTL Nastaliq) & English" },
+    ],
+    qa: [
+      {
+        question: "What exact problem does this application solve?",
+        answer:
+          "In Khyber Pakhtunkhwa (KP) and across Pakistan, Investigation Officers (IOs) spend up to 70–80% of their operational duty hours manually writing and re-drafting paper case files (FIRs, Roznamcha daily diaries, Zimni supplementary reports) up to 4–5 times per case. This administrative paralysis bogs down active cases for 3–4 months, risks critical evidence going cold, and poses severe security threats where losing a single physical folder can end an officer's career.",
+      },
+      {
+        question: "Who is affected by this bottleneck and what is the target demographic?",
+        answer:
+          "The immediate target users are over 2,000+ Investigation Officers and Moharrirs across police stations in Khyber Pakhtunkhwa, and ultimately law enforcement officers across Pakistan who require an offline-first digital scribe to perform their daily duties without being chained to manual desks.",
+      },
+      {
+        question: "What is the personal origin story behind this project?",
+        answer:
+          "The project was conceived by observing my father—an Assistant Sub-Inspector and active Investigation Officer in KP Police—spend endless off-duty hours manually re-writing Urdu case files. Witnessing how administrative overhead actively pulls dedicated officers away from boots-on-the-ground field investigation drove me to build a native software solution tailored specifically to their harsh field workflows.",
+      },
+      {
+        question: "What is built in V1 (MVP) and what is its technical architecture?",
+        answer:
+          "V1 is a complete, offline-first Flutter application featuring continuous acoustic speech recognition in both Urdu (ur_PK) and English (en_US). It includes digital replicas of official police stationery (FIR, Form 25-53(1) Zimni), an interactive Scanned Form Studio for overlaying voice-fillable text fields onto paper form photos, a hardware digital evidence locker for crime scene media, local AES-256 encryption backed by OS Keystore keys, and direct hardware printing to portable Bluetooth/USB thermal printers via the ESC/POS binary protocol.",
+      },
+      {
+        question: "What is coming in V2 and what are the next rollout milestones?",
+        answer:
+          "V2 expands the system into an enterprise supervisory platform featuring real-time case tracking for commanding officers, inline order comments, case thoroughness ratings, officer performance analytics, and encrypted P2P case handover exports (.kpkpkg archives). We are currently polishing the UI/UX based on direct feedback from officers like my father to prepare for formal field deployment testing across local precincts.",
+      },
+    ],
+    storyQA: [
+      {
+        question: "What exact problem does this application solve?",
+        answer:
+          "In Khyber Pakhtunkhwa (KP) and across Pakistan, Investigation Officers (IOs) spend up to 70–80% of their operational duty hours manually writing and re-drafting paper case files (FIRs, Roznamcha daily diaries, Zimni supplementary reports) up to 4–5 times per case. This administrative paralysis bogs down active cases for 3–4 months, risks critical evidence going cold, and poses severe security threats where losing a single physical folder can end an officer's career.",
+      },
+      {
+        question: "Who is affected by this bottleneck and what is the target demographic?",
+        answer:
+          "The immediate target users are over 2,000+ Investigation Officers and Moharrirs across police stations in Khyber Pakhtunkhwa, and ultimately law enforcement officers across Pakistan who require an offline-first digital scribe to perform their daily duties without being chained to manual desks.",
+      },
+      {
+        question: "What is the personal origin story behind this project?",
+        answer:
+          "The project was conceived by observing my father—an Assistant Sub-Inspector and active Investigation Officer in KP Police—spend endless off-duty hours manually re-writing Urdu case files. Witnessing how administrative overhead actively pulls dedicated officers away from boots-on-the-ground field investigation drove me to build a native software solution tailored specifically to their harsh field workflows.",
+      },
+      {
+        question: "What is built in V1 (MVP) and what is its technical architecture?",
+        answer:
+          "V1 is a complete, offline-first Flutter application featuring continuous acoustic speech recognition in both Urdu (ur_PK) and English (en_US). It includes digital replicas of official police stationery (FIR, Form 25-53(1) Zimni), an interactive Scanned Form Studio for overlaying voice-fillable text fields onto paper form photos, a hardware digital evidence locker for crime scene media, local AES-256 encryption backed by OS Keystore keys, and direct hardware printing to portable Bluetooth/USB thermal printers via the ESC/POS binary protocol.",
+      },
+      {
+        question: "What is coming in V2 and what are the next rollout milestones?",
+        answer:
+          "V2 expands the system into an enterprise supervisory platform featuring real-time case tracking for commanding officers, inline order comments, case thoroughness ratings, officer performance analytics, and encrypted P2P case handover exports (.kpkpkg archives). We are currently polishing the UI/UX based on direct feedback from officers like my father to prepare for formal field deployment testing across local precincts.",
+      },
+    ],
+    built: [
+      "Native Urdu speech recognition mapping spoken dictation directly into digital police stationery (FIR & Form 25-53(1) Zimni).",
+      "Field-ready direct ESC/POS Bluetooth RFCOMM and USB OTG thermal printing for spot evidence statements and immediate paper receipts.",
+      "Interactive Scanned Form Studio: map custom voice-fillable text coordinates over photographs of physical paper stationery.",
+      "Hardware-backed secure key storage (Android Keystore) with a 100% offline AES-256 encrypted local Hive database.",
+    ],
+    technical: {
+      built: [
+        "Native Urdu speech recognition mapping spoken dictation directly into digital police stationery (FIR & Form 25-53(1) Zimni).",
+        "Field-ready direct ESC/POS Bluetooth RFCOMM and USB OTG thermal printing for spot evidence statements and immediate paper receipts.",
+        "Interactive Scanned Form Studio: map custom voice-fillable text coordinates over photographs of physical paper stationery.",
+        "Hardware-backed secure key storage (Android Keystore) with a 100% offline AES-256 encrypted local Hive database.",
+      ],
+      remaining: [
+        "V2 enterprise supervisory platform featuring real-time case tracking for commanding officers",
+        "Inline order comments and case thoroughness ratings with officer performance analytics",
+        "Encrypted P2P case handover exports (.kpkpkg archives) across police precinct stations",
+      ],
+      nextStepsAndNeeds:
+        "Polishing UI/UX based on direct field feedback from KP Police Investigation Officers to prepare for formal precinct pilot deployment and testing.",
+    },
+    year: "2025",
   },
   {
     id: "ev-battery-swap",
     name: "EV Battery Swapping Network",
-    logo: logoFor("EV", "22d3ee"),
+    tagline: "Swap. Ride. Repeat.",
+    subtitle:
+      "Instant <2-min battery swapping ecosystem for electric bikes in Peshawar.",
+    logo: "/logos/ev-swap.svg",
+    category: "Software Architecture & Clean Energy",
     shortSummary:
-      "Placeholder summary. System design for a battery-swap station network: locate charged inventory, reserve a pack, swap in minutes.",
-    storyQA: DUMMY_QA,
-    technical: DUMMY_TECH,
-    proofLinks: DUMMY_LINKS,
-    status: "Architecture Spec",
-    stack: ["System Architecture", "React Native", "Firebase"],
+      "Designed and built an urban battery swapping network and app prototype to eliminate 6-8 hour home charging delays and high petrol costs (Rs. 379/litre) for over 2,000+ delivery riders and daily commuters in Peshawar.",
+    storyQA: [
+      {
+        question: "What problem are you solving, and who has it?",
+        answer:
+          "Electric bike riders in Peshawar face two brutal realities: wall-charging a battery takes 6–8 hours, and there is virtually zero public charging infrastructure in the city. Delivery riders and daily commuters — over 2,000 in our target zone alone — are forced to either wait overnight or burn petrol at Rs. 379/litre. EVswap eliminates this bottleneck entirely by decoupling the battery from the bike: riders pull into any of our five networked stations, swap their depleted pack for a fully charged one in under 5 minutes, and continue riding.",
+      },
+      {
+        question: "How does the swapping system actually work?",
+        answer:
+          "The rider opens the EVswap mobile app to locate the nearest station with available charged inventory on a live map. Upon arrival, they scan a QR code to authenticate, hand in their depleted battery, and receive a verified charged pack from the station attendant. The backend validates battery serial numbers, updates the inventory ledger in PostgreSQL, and logs the swap against the rider's subscription tier. The entire exchange — authentication, inventory update, and handoff — completes in under 5 minutes.",
+      },
+      {
+        question: "What is the business model?",
+        answer:
+          "We operate on a subscription-based model with tiered plans designed for different rider profiles. The Basic plan (Rs. 2,000/month) covers 20 swaps — ideal for students and occasional riders. The Standard plan (Rs. 4,000/month) provides 35 swaps with priority support and rewards points, targeting daily commuters and delivery riders who depend on uninterrupted mobility. Each swap costs roughly 60% less per kilometer than petrol, making the value proposition immediately tangible.",
+      },
+      {
+        question: "What have you learned from the market so far?",
+        answer:
+          "Peshawar has a rapidly growing fleet of electric two-wheelers, but adoption is bottlenecked by range anxiety and impractical charging times — not by vehicle cost. Our field research identified over 100,000 potential riders across Khyber Pakhtunkhwa. The live prototype confirmed that a 5-station network with smart inventory rotation can serve a meaningful rider base. The biggest surprise was demand from delivery fleet operators, who see battery swapping as an operational necessity rather than a convenience.",
+      },
+      {
+        question: "Why are you the right person to build this?",
+        answer:
+          "I live in Peshawar and see the EV charging gap daily — this is not an abstract market thesis for me. I designed the full system architecture (React Native client, Express API, PostgreSQL data model) and built the working prototype end-to-end on Replit, shipping a live production deployment that demonstrates real station discovery, swap flow, and subscription management. My previous builds (Best Cut, Campus Apply) prove I can take a product from blank screen to working software under extreme resource constraints.",
+      },
+    ],
+    technical: {
+      built: [
+        "Built an urban GIS station locator and map interface for EV drivers across Peshawar hubs (Hayatabad, Saddar, University Town).",
+        "Engineered a QR-based swap verification and battery inventory state machine tracking state-of-health and charge levels.",
+        "Developed a PostgreSQL and Express backend handling user authentication, subscription pricing models, and real-time station availability.",
+      ],
+      remaining: [
+        "IoT telemetry integration for real-time battery health monitoring (voltage, temperature, cycle count)",
+        "Mobile React Native client for iOS and Android rider apps",
+        "Payment gateway integration (JazzCash / EasyPaisa) for automated subscription billing",
+      ],
+      nextStepsAndNeeds:
+        "Pilot deployment funding for 5 physical swap stations across Peshawar's high-density delivery corridors, and hardware procurement for standardized battery packs and IoT charging cradles.",
+    },
+    proofLinks: {
+      github: "https://github.com/jjabdulmateee/evswap",
+      researchPdf: "/docs/EVSwap-Research.pdf",
+      liveApp: "https://web-builder-suite--ansarullahkhan2.replit.app/",
+      liveAppLabel: "Live Demo",
+    },
+    status: "Completed Prototype",
+    stack: ["React Native", "Node.js", "Express 5", "PostgreSQL", "Replit"],
     year: "2025",
   },
 ];
 
 export function getProject(id: string): Project | undefined {
-  return projects.find((p) => p.id === id);
+  return projects.find(
+    (p) =>
+      p.id === id ||
+      (id === "policeapp" && (p.id === "police-voice-case-documentation" || p.name.toLowerCase() === "policeapp")) ||
+      (id === "police-voice-case-documentation" && (p.id === "policeapp" || p.id === "police-voice-case-documentation")) ||
+      (id === "voice-to-text" && (p.id === "police-voice-case-documentation" || p.id === "policeapp"))
+  );
 }
 
 /* ───────────────────────── Site-level config ───────────────────────── */
 
 export const site = {
-  name: "MD",
-  handle: "@your-handle",
+  name: "Abdul Mateen Khan",
+  handle: "@jjabdulmateee",
   title: "Builder Workstation",
   copyrightYear: 2026,
   tagline:
-    "I ship end-to-end products — mobile apps, admissions platforms, and AI tooling — from architecture to tested build.",
+    "I find real-world friction and use AI to build the software that fixes it.",
   tagline2:
     "Currently applying to the Horowitz Andreessen Academy with this proof-of-work.",
   links: {
-    github: "https://github.com/your-handle",
-    email: "mailto:you@example.com",
-    linkedin: "https://linkedin.com/in/your-handle",
+    github: "https://github.com/jjabdulmateee",
+    email: "mailto:Abdulmateenkhan800@gmail.com",
+    linkedin: "https://www.linkedin.com/in/abdul-mateee-780346327/",
   },
   now: {
     status: "Active",
     context: "Applying to HAA",
-    focus: "Shipping Humanly v0.2 detector ensemble",
-    activeBuilds: ["humanly", "campus-apply", "ev-battery-swap"],
-    coreStack: ["TypeScript", "React", "Flutter", "Firebase", "Python"],
+    focus: "Shipping Campus Apply V2 & HAA Proof-of-Work Portfolio",
+    activeBuilds: ["police-voice-case-documentation", "ev-battery-swap", "campus-apply"],
+    coreStack: ["TypeScript", "React", "Flutter (Dart 3.9+)", "Firebase", "Python"],
     location: "UTC+5",
   },
 } as const;
