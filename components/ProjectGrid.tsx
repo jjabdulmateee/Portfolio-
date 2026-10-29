@@ -43,7 +43,7 @@ export function ProjectGrid() {
   }
 
   return (
-    <section id="builds" className="mx-auto max-w-7xl px-6 pb-24 md:px-12">
+    <section id="builds" className="mx-auto max-w-7xl px-6 pb-16 md:px-12 md:pb-20">
       <div className="mb-6 flex items-end justify-between border-b border-zinc-800/80 pb-3">
         <div>
           <h2 className="font-mono text-sm text-zinc-400">
