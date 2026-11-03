@@ -558,7 +558,7 @@ export const site = {
   tagline:
     "I find real-world friction and use AI to build the software that fixes it.",
   tagline2:
-    "Currently applying to the Horowitz Andreessen Academy with this proof-of-work.",
+    "Currently applying to The Horowitz Andreessen Academy with this proof-of-work.",
   links: {
     github: "https://github.com/jjabdulmateee",
     email: "mailto:Abdulmateenkhan800@gmail.com",
@@ -566,8 +566,8 @@ export const site = {
   },
   now: {
     status: "Active",
-    context: "Applying to HAA",
-    focus: "Shipping Campus Apply V2 & HAA Proof-of-Work Portfolio",
+    context: "Applying to The Horowitz Andreessen Academy",
+    focus: "Shipping Campus Apply V2 & The Horowitz Andreessen Academy Proof-of-Work Portfolio",
     activeBuilds: ["police-voice-case-documentation", "ev-battery-swap", "campus-apply"],
     coreStack: ["TypeScript", "React", "Flutter (Dart 3.9+)", "Firebase", "Python"],
     location: "UTC+5",

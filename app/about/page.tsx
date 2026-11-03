@@ -106,8 +106,8 @@ export default function AboutPage() {
                 </Bullet>
                 <Bullet label="Long-Term Vision:">
                   Hardware and autonomous systems are redefining global security.
-                  I want to build at the forefront of next-gen defense technology
-                  and collaborate with visionary founders like Palmer Luckey
+                  I want to build at the forefront of next-gen defense technology,
+                  aiming to learn from visionary founders like Palmer Luckey
                   (Anduril Industries) to redefine defense capabilities for the
                   modern era.
                 </Bullet>

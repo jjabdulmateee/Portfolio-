@@ -17,11 +17,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "MD — Builder Workstation",
   description:
-    "Proof-of-work portfolio: shipped builds, live status, and engineering depth. Applying to the Horowitz Andreessen Academy.",
+    "Proof-of-work portfolio: shipped builds, live status, and engineering depth. Applying to The Horowitz Andreessen Academy.",
   openGraph: {
     title: "MD — Builder Workstation",
     description:
-      "Shipped builds, live status, and engineering depth. Applying to HAA / a16z.",
+      "Shipped builds, live status, and engineering depth. Applying to The Horowitz Andreessen Academy / a16z.",
     type: "website",
   },
 };
