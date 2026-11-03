@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { TerminalSquare } from "lucide-react";
 import { site } from "@/data/projects";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./ThemeToggle";
 
 const TABS = [
   { href: "/", label: "/builds" },
@@ -56,15 +57,18 @@ export function WorkstationBar() {
           })}
         </nav>
 
-        {/* Right: live ping */}
-        <div className="flex items-center gap-2 rounded-full border border-zinc-800/80 bg-zinc-900/50 py-1 pl-2 pr-3 font-mono text-[11px] text-zinc-300">
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-            <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
-          </span>
-          <span className="text-emerald-400">{site.now.status}</span>
-          <span className="hidden text-zinc-600 sm:inline">|</span>
-          <span className="hidden sm:inline">{site.now.context}</span>
+        {/* Right: theme toggle + live ping */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <div className="flex items-center gap-2 rounded-full border border-zinc-800/80 bg-zinc-900/50 py-1 pl-2 pr-3 font-mono text-[11px] text-zinc-300">
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+            </span>
+            <span className="text-emerald-400">{site.now.status}</span>
+            <span className="hidden text-zinc-600 sm:inline">|</span>
+            <span className="hidden sm:inline">{site.now.context}</span>
+          </div>
         </div>
       </div>
 

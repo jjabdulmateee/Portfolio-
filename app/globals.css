@@ -8,6 +8,30 @@
   --border: #27272a; /* zinc-800 */
   --accent-live: #10b981; /* emerald-500 */
   --accent-link: #3b82f6; /* blue-500 */
+  --glass-bg: rgba(24, 24, 27, 0.6);
+  --glass-border: rgba(39, 39, 42, 0.8);
+}
+
+/* Light mode: invert the zinc scale so existing zinc-* utilities flip cleanly */
+html.light {
+  color-scheme: light;
+  --background: #fafafa;
+  --foreground: #18181b;
+  --muted: #52525b;
+  --border: #e4e4e7;
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(228, 228, 231, 0.95);
+  --color-zinc-50: #09090b;
+  --color-zinc-100: #18181b;
+  --color-zinc-200: #27272a;
+  --color-zinc-300: #3f3f46;
+  --color-zinc-400: #52525b;
+  --color-zinc-500: #71717a;
+  --color-zinc-600: #a1a1aa;
+  --color-zinc-700: #d4d4d8;
+  --color-zinc-800: #e4e4e7;
+  --color-zinc-900: #f4f4f5;
+  --color-zinc-950: #fafafa;
 }
 
 @theme inline {
@@ -54,6 +78,21 @@ body {
       transparent
     );
   background-repeat: no-repeat;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.light body {
+  background-image:
+    radial-gradient(
+      ellipse 80% 50% at 50% -20%,
+      rgba(59, 130, 246, 0.08),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 100% 10%,
+      rgba(16, 185, 129, 0.05),
+      transparent
+    );
 }
 
 ::selection {
@@ -80,10 +119,10 @@ body {
 
 /* ───────────────────────── Utilities ───────────────────────── */
 @utility glass {
-  background-color: rgba(24, 24, 27, 0.6); /* zinc-900/60 */
+  background-color: var(--glass-bg);
   backdrop-filter: blur(12px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
-  border: 1px solid rgba(39, 39, 42, 0.8); /* zinc-800/80 */
+  border: 1px solid var(--glass-border);
 }
 
 @utility grid-bg {
