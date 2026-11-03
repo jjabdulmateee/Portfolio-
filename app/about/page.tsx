@@ -100,9 +100,9 @@ export default function AboutPage() {
               </p>
               <ul className="space-y-3.5">
                 <Bullet label="Engineering Objectives:">
-                  Developing ultra-low-cost, non-detectable, jam-resistant drone
-                  platforms and hunter-drones capable of extended endurance on
-                  minimal battery payloads.
+                  Developing ultra-low-cost, low-signature, jam-resistant drone
+                  platforms and affordable, jam-resistant counter-drone systems
+                  capable of extended endurance on minimal battery payloads.
                 </Bullet>
                 <Bullet label="Long-Term Vision:">
                   Hardware and autonomous systems are redefining global security.
