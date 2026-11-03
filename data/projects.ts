@@ -529,7 +529,7 @@ export const projects: Project[] = [
     proofLinks: {
       github: "https://github.com/jjabdulmateee/evswap",
       researchPdf: "/docs/EVSwap-Research.pdf",
-      liveApp: "https://web-builder-suite--ansarullahkhan2.replit.app/",
+      liveApp: "https://evswap-main.vercel.app/",
       liveAppLabel: "Live Demo",
     },
     status: "Completed Prototype",
