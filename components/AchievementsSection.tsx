@@ -84,6 +84,24 @@ export const PROOF_DOCUMENTS: ProofDocument[] = [
       "Status: Verified Signature",
     ],
   },
+  {
+    id: "algoverse-admission",
+    title: "Algoverse AI Research Admission",
+    badge: "[VERIFIED_ADMISSION]",
+    badgeTone: "emerald",
+    src: "/images/algoverse/algoverse-admission-email.png",
+    alt: "Algoverse AI Research Program Summer 2025 admission email with merit scholarship",
+    fileLabel: "algoverse-admission-email.png",
+    highlight: "Summer 2025 Cohort · Merit Scholarship",
+    description:
+      "Official admission to the Algoverse AI Research Program (Summer 2025 Cohort), with a merit scholarship covering tuition costs for advanced AI research.",
+    verifiedDetails: [
+      "Issued by: Algoverse AI Research Admissions",
+      "Program: Summer 2025 Cohort",
+      "Award: Merit scholarship (15% of tuition)",
+      "Status: Official Admission Confirmed",
+    ],
+  },
 ];
 
 export function AchievementsSection() {
@@ -165,7 +183,7 @@ export function AchievementsSection() {
             </span>
           </div>
           <p className="mt-1 text-sm text-zinc-500">
-            Proof of Admission &amp; Scholarships · The Knowledge Society (TKS)
+            Proof of Admission &amp; Scholarships · TKS · Algoverse
           </p>
         </div>
         <span className="hidden font-mono text-[11px] text-zinc-600 sm:inline">
@@ -173,34 +191,67 @@ export function AchievementsSection() {
         </span>
       </div>
 
-      {/* High-Impact Copy Banner */}
-      <div className="mb-8 rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5 backdrop-blur-sm sm:p-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
-              <Award className="size-4 text-emerald-400" />
-              <span>THE KNOWLEDGE SOCIETY (TKS) · ACCELERATOR ADMISSION</span>
+      {/* Milestone banners — TKS and Algoverse side by side */}
+      <div className="mb-8 grid gap-4 md:grid-cols-2">
+        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5 backdrop-blur-sm sm:p-6">
+          <div className="flex h-full flex-col justify-between gap-4">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                <Award className="size-4 text-emerald-400" />
+                <span>THE KNOWLEDGE SOCIETY (TKS) · ACCELERATOR ADMISSION</span>
+              </div>
+              <p className="text-base font-medium leading-relaxed text-zinc-100 sm:text-lg">
+                &ldquo;A few months ago, I was accepted into The Knowledge Society
+                (TKS) accelerator program with financial scholarship
+                support.&rdquo;
+              </p>
+              <p className="text-xs text-zinc-400">
+                Selected among competitive global applicants for demonstrated curiosity,
+                drive, and builder mindset, backed by an institutional financial aid grant.
+              </p>
             </div>
-            <p className="text-base font-medium leading-relaxed text-zinc-100 sm:text-lg">
-              &ldquo;A few months ago, I was accepted into The Knowledge Society
-              (TKS) accelerator program with financial scholarship
-              support.&rdquo;
-            </p>
-            <p className="text-xs text-zinc-400">
-              Selected among competitive global applicants for demonstrated curiosity,
-              drive, and builder mindset, backed by an institutional financial aid grant.
-            </p>
-          </div>
 
-          <div className="flex shrink-0 flex-wrap gap-2 md:flex-col md:items-end">
-            <span className="inline-flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900/70 px-2.5 py-1 font-mono text-xs text-zinc-300">
-              <CheckCircle2 className="size-3.5 text-emerald-400" />
-              2026–2027 TKS Program
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900/70 px-2.5 py-1 font-mono text-xs text-zinc-300">
-              <ShieldCheck className="size-3.5 text-blue-400" />
-              $4,400 USD Financial Aid
-            </span>
+            <div className="flex shrink-0 flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900/70 px-2.5 py-1 font-mono text-xs text-zinc-300">
+                <CheckCircle2 className="size-3.5 text-emerald-400" />
+                2026–2027 TKS Program
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900/70 px-2.5 py-1 font-mono text-xs text-zinc-300">
+                <ShieldCheck className="size-3.5 text-blue-400" />
+                $4,400 USD Financial Aid
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5 backdrop-blur-sm sm:p-6">
+          <div className="flex h-full flex-col justify-between gap-4">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                <Award className="size-4 text-emerald-400" />
+                <span>ALGOVERSE AI RESEARCH PROGRAM · SUMMER 2025</span>
+              </div>
+              <p className="text-base font-medium leading-relaxed text-zinc-100 sm:text-lg">
+                &ldquo;Admitted to the Algoverse AI Research Program (Summer 2025
+                Cohort) with a merit scholarship covering tuition costs for
+                advanced AI research.&rdquo;
+              </p>
+              <p className="text-xs text-zinc-400">
+                Selected from a global applicant pool for demonstrated work in
+                artificial intelligence, with a partial merit scholarship.
+              </p>
+            </div>
+
+            <div className="flex shrink-0 flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900/70 px-2.5 py-1 font-mono text-xs text-zinc-300">
+                <CheckCircle2 className="size-3.5 text-emerald-400" />
+                Summer 2025 Cohort
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900/70 px-2.5 py-1 font-mono text-xs text-zinc-300">
+                <ShieldCheck className="size-3.5 text-blue-400" />
+                Merit Scholarship · 15% Tuition
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -217,6 +268,11 @@ export function AchievementsSection() {
         <ProofCard
           document={PROOF_DOCUMENTS[1]}
           onInspect={() => handleOpenModal(1)}
+        />
+
+        <ProofCard
+          document={PROOF_DOCUMENTS[3]}
+          onInspect={() => handleOpenModal(3)}
         />
       </div>
 
@@ -271,7 +327,7 @@ export function AchievementsSection() {
                     <span className="size-2.5 rounded-full bg-emerald-500/70" />
                   </div>
                   <span className="font-mono text-xs text-zinc-400">
-                    ~/images/tks/{activeDoc.fileLabel}
+                    ~{activeDoc.src}
                   </span>
                   <span
                     className={`hidden rounded px-1.5 py-0.5 font-mono text-[10px] font-semibold sm:inline-block ${
